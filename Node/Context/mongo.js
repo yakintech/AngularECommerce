@@ -1,8 +1,8 @@
 //bu js de sadece veritabanı şemalarım bulunur!
 const mongoose = require('mongoose');
+//mongodb+srv://AngularUser:Fe44D81@angularecommercedb.on1pt.mongodb.net/test
 
-mongoose.connect(`mongodb+srv://azra_elturco:1996417B@cluster417-vl3kd.mongodb.net/test?authSource=admin&replicaSet=Cluster417-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true
-`, { useNewUrlParser: true });
+mongoose.connect(`mongodb+srv://AngularUser:Fe44D81@angularecommercedb.on1pt.mongodb.net/test`, { useNewUrlParser: true });
 
 const Schema = mongoose.Schema;
 
@@ -18,6 +18,10 @@ const webuserSchema = new Schema({
 
 const webuser = mongoose.model('Webuser',webuserSchema);
 
+var w = new webuser({
+    name:"aa"
+});
+w.save();
 
 //export sayesinde diğer js dosyaları şemalarıma erişebilir
 module.exports = {
