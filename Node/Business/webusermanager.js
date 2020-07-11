@@ -1,4 +1,5 @@
 var mongo = require('./../Context/mongo');
+const { webuser } = require('./../Context/mongo');
 
 
 const webusermanager = {
@@ -25,7 +26,19 @@ const webusermanager = {
                 res.json(err);
             }
         })
+    },
+    insert:(req,res) =>{
+        var w = new mongo.webuser({
+            name:req.body.name,
+            surname:req.body.surname,
+            address:req.body.address,
+            email:req.body.email,
+            phone:req.body.phone,
+        });
+
+        w.save();
     }
+
 }
 
 
