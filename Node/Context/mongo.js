@@ -71,12 +71,6 @@ const slider = mongoose.model('Slider',sliderSchema);
 
 
 
-
-var w = new webuser({
-    name:"aa"
-});
-w.save();
-
 //export sayesinde diğer js dosyaları şemalarıma erişebilir
 module.exports = {
     webuser

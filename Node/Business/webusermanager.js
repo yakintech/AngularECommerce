@@ -6,7 +6,7 @@ const webusermanager = {
     get:(req,res)=>{
         mongo.webuser.find({"isdeleted":false},(err,doc)=>{
             if(!err){
-                res.send(doc);
+                res.json(doc);
             }
             else{
                 res.json(err);
@@ -20,7 +20,7 @@ const webusermanager = {
             if(!err){
                 doc.isdeleted = true;
                 doc.save();
-                res.send("Success!");
+                res.json({"msg":"Success!"});
             }
             else{
                 res.json(err);
@@ -37,6 +37,8 @@ const webusermanager = {
         });
 
         w.save();
+
+        res.send("OK!")
     }
 
 }
