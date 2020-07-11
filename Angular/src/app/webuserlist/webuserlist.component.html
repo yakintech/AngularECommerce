@@ -1,5 +1,55 @@
 <div class="main-content">
     <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Kullanıcı Ekle</h4>
+                        <p class="card-category">Kullanıcı ekleme formu</p>
+                    </div>
+                    <div class="card-body">
+                        <form class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="">Ad</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="">Soyad</label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="">Telefon</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="">EMail</label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="">Adres</label>
+                                    <textarea name="" id="" cols="30" rows="6" class="form-control"></textarea>
+                                </div>
+
+
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right">Kullanıcı
+                                Ekle</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -56,9 +106,9 @@
                                         <td>
                                             <button class="btn btn-danger" (click)="Delete(item._id)">Sil</button>
                                         </td>
-                                     
+
                                     </tr>
-                          
+
                                 </tbody>
                             </table>
                         </div>
@@ -67,5 +117,4 @@
             </div>
         </div>
     </div>
-  </div>
-  
+</div>
