@@ -38,7 +38,34 @@ const webusermanager = {
 
         w.save();
 
-        res.send("OK!")
+        res.json({"msg":"OK!"})
+    },
+    getbyid:(req,res)=>{
+        var id = req.params.id;
+        mongo.webuser.findById(id,(err,doc)=>{
+            if(!err){
+                res.json(doc);
+            }
+            else{
+                res.json(err);
+            }
+        })
+    },
+    update:(req,res)=>{
+ 
+        var id = req.body._id;
+        mongo.webuser.findById(id,(err,doc)=>{
+            if(!err){
+                doc.name = req.body.name;
+                doc.surname = req.body.surname;
+                doc.phone = req.body.phone;
+                doc.email = req.body.email;
+                doc.address = req.body.address;
+
+                doc.save();
+                res.json({"msg":"Updated!"});
+            }
+        })
     }
 
 }

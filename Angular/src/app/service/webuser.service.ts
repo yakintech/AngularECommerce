@@ -17,7 +17,15 @@ export class WebuserService {
 
   }
 
-  AddWebuser(){
+  AddWebuser(data){
+    return this._http.post("http://localhost:3000/api/webuser/add",data);
+  }
 
+  GetWebuserByID(id){
+    return this._http.get("http://localhost:3000/api/webuser/" + id);
+  }
+
+  UpdateWebUser(data){
+    return this._http.post("http://localhost:3000/api/webuser/update",data);
   }
 }

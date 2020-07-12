@@ -17,12 +17,20 @@ app.get("/api/webuser",(req,res)=>{
     webuser.webusermanager.get(req,res);
 });
 
+app.get("/api/webuser/:id",(req,res)=>{
+    webuser.webusermanager.getbyid(req,res);
+});
+
 app.post("/api/webuser/delete",(req,res)=>{
     webuser.webusermanager.delete(req,res);
 });
 
 app.post("/api/webuser/add",(req,res)=>{
     webuser.webusermanager.insert(req,res);
+})
+
+app.post("/api/webuser/update",(req,res)=>{
+    webuser.webusermanager.update(req,res);
 })
 
 
