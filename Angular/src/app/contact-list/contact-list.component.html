@@ -1,0 +1,112 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Kullanıcı</h4>
+                        <p class="card-category">Kullanıcı ekleme formu</p>
+                    </div>
+                    <div class="card-body">
+                        <form class="form-group" [formGroup]="kisiform" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="">Ad</label>
+                                    <input type="text" class="form-control" formControlName="name">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="">Soyad</label>
+                                    <input type="text" class="form-control" formControlName="surname">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="">Telefon</label>
+                                    <input type="text" class="form-control" formControlName="phone">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="">EMail</label>
+                                    <input type="text" class="form-control" formControlName="email">
+                                </div>
+                                <input type="hidden" formControlName="_id">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="">Adres</label>
+                                    <textarea name="" id="" cols="30" rows="6" class="form-control"
+                                        formControlName="address"></textarea>
+                                </div>
+
+
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right">
+                                Ekle</button>
+                            <button mat-raised-button type="button" (click)="guncelle()"
+                                class="btn btn-danger pull-right">
+                                Güncelle</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">İletişim Formu Listesi</h4>
+                        <p class="card-category"> Siteye gelen iletişim formlarının göründüğü alan</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Message
+                                    </th>
+                                    <th>
+                                        Güncelle
+                                    </th>
+                                    <th>
+                                        Sil
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of contacts">
+                                        <td>
+                                            {{item._id}}
+                                        </td>
+                                        <td>
+                                            {{item.email}}
+                                        </td>
+                                        <td>
+                                            {{item.message}}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger" (click)="GetData(item._id)">GÜNCELLE</button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger" (click)="Delete(item._id)">SİL</button>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

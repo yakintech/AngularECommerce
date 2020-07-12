@@ -24,6 +24,7 @@ import {
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { WebuserlistComponent } from './webuserlist/webuserlist.component';
+import { ContactListComponent } from './contact-list/contact-list.component';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { WebuserlistComponent } from './webuserlist/webuserlist.component';
     AppComponent,
     AdminLayoutComponent,
     WebuserlistComponent,
+    ContactListComponent,
 
   ],
   providers: [],
