@@ -59,9 +59,8 @@ const contactManager = {
         var id = req.body._id;
         mongo.contact.findById(id, (err, doc) => {
             if (!err) {
-                doc.email = req.body.email;
-                doc.message = req.body.message;
-
+                doc.email = req.body.email != null ? req.body.email : doc.email;
+                doc.message = req.body.message != null ? req.body.message : doc.message;
                 doc.save();
                 res.json({ "msg": "update completed!" });
             }

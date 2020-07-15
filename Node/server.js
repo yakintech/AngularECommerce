@@ -1,8 +1,11 @@
+const { check, body, validationResult } = require('express-validator');
+
 var app = require('express')();
 var bodyParser = require('body-parser');
 var mongo = require('./Context/mongo');
 var webuser = require('./Business/webusermanager');
 var contact = require('./Business/contactManager');
+var helpers = require('./Helper/functions');
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
@@ -13,6 +16,7 @@ app.use(function (req, res, next) {
     next();
 });
 
+//#region WEB
 app.get("/api/webuser", (req, res) => {
     webuser.webusermanager.get(req, res);
 });
@@ -21,19 +25,67 @@ app.get("/api/webuser/:id", (req, res) => {
     webuser.webusermanager.getbyid(req, res);
 });
 
-app.post("/api/webuser/delete", (req, res) => {
+app.post("/api/webuser/delete", [
+    body("id")
+        .notEmpty()
+        .trim()
+        .escape()
+        .withMessage('id boş geçilemez'),
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     webuser.webusermanager.delete(req, res);
 });
 
-app.post("/api/webuser/add", (req, res) => {
+app.post("/api/webuser/add", [
+    body("name")
+        .notEmpty()
+        .trim()
+        .escape()
+        .withMessage('Ad boş geçilemez'),
+    body("surname")
+        .notEmpty()
+        .trim()
+        .escape()
+        .withMessage('Soyad boş geçilemez'),
+    body("email")
+        .notEmpty()
+        .trim()
+        .escape()
+        .withMessage('Email boş geçilemez'),
+    body('email').isEmail().withMessage('Hatalı email formatı'),
+    body('email').custom(value => {
+        return helpers.findByEmail(mongo.webuser, value).then(user => {
+            if (user) {
+                return Promise.reject('E-mail already in use');
+            }
+        })
+    })
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     webuser.webusermanager.insert(req, res);
 })
 
-app.post("/api/webuser/update", (req, res) => {
+app.post("/api/webuser/update", [
+    body("id")
+        .notEmpty()
+        .trim()
+        .escape()
+        .withMessage('id boş geçilemez'),
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     webuser.webusermanager.update(req, res);
 })
-
-/****CONTACT****/
+//#endregion
+//#region CONTACT
 app.get("/api/contact", (req, res) => {
     contact.contactManager.get(req, res);
 });
@@ -42,17 +94,50 @@ app.get("/api/contact/:id", (req, res) => {
     contact.contactManager.getbyid(req, res);
 });
 
-app.post("/api/contact/delete", (req, res) => {
+app.post("/api/contact/delete", [
+    body("id")
+        .notEmpty()
+        .trim()
+        .escape()
+        .withMessage('id boş geçilemez'),
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     contact.contactManager.delete(req, res);
 });
 
-app.post("/api/contact/add", (req, res) => {
+app.post("/api/contact/add", [
+    body("email")
+        .notEmpty()
+        .trim()
+        .escape()
+        .withMessage('email boş geçilemez'),
+    body("message")
+        .notEmpty()
+        .trim()
+        .escape()
+        .withMessage('Mesaj boş geçilemez'),
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     contact.contactManager.insert(req, res);
 })
 
-app.post("/api/contact/update", (req, res) => {
+app.post("/api/contact/update", [
+    body("id")
+        .notEmpty()
+        .trim()
+        .escape()
+        .withMessage('id boş geçilemez'),
+], (req, res) => {
     contact.contactManager.update(req, res);
 })
-/****CONTACT****/
+//#endregion
+//#region SLIDER
 
+//#endregion
 app.listen(3000);

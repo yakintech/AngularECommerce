@@ -1,69 +1,68 @@
 var mongo = require('./../Context/mongo');
 const { webuser } = require('./../Context/mongo');
 
-
 const webusermanager = {
-    get:(req,res)=>{
-        mongo.webuser.find({"isdeleted":false},(err,doc)=>{
-            if(!err){
+    get: (req, res) => {
+        mongo.webuser.find({ "isdeleted": false }, (err, doc) => {
+            if (!err) {
                 res.json(doc);
             }
-            else{
+            else {
                 res.json(err);
             }
         });
     },
-    delete:(req,res)=>{
+    delete: (req, res) => {
         var id = req.body.id;
 
-        mongo.webuser.findById(id,(err,doc)=>{
-            if(!err){
+        mongo.webuser.findById(id, (err, doc) => {
+            if (!err) {
                 doc.isdeleted = true;
                 doc.save();
-                res.json({"msg":"Success!"});
+                res.json({ "msg": "Success!" });
             }
-            else{
+            else {
                 res.json(err);
             }
         })
     },
-    insert:(req,res) =>{
+    insert: (req, res) => {
         var w = new mongo.webuser({
-            name:req.body.name,
-            surname:req.body.surname,
-            address:req.body.address,
-            email:req.body.email,
-            phone:req.body.phone,
+            name: req.body.name,
+            surname: req.body.surname,
+            address: req.body.address,
+            email: req.body.email,
+            phone: req.body.phone,
         });
 
         w.save();
 
-        res.json({"msg":"OK!"})
+        res.json({ "msg": "OK!" })
     },
-    getbyid:(req,res)=>{
+    getbyid: (req, res) => {
         var id = req.params.id;
-        mongo.webuser.findById(id,(err,doc)=>{
-            if(!err){
+        mongo.webuser.findById(id, (err, doc) => {
+            if (!err) {
                 res.json(doc);
             }
-            else{
+            else {
                 res.json(err);
             }
         })
     },
-    update:(req,res)=>{
- 
-        var id = req.body._id;
-        mongo.webuser.findById(id,(err,doc)=>{
-            if(!err){
-                doc.name = req.body.name;
-                doc.surname = req.body.surname;
-                doc.phone = req.body.phone;
-                doc.email = req.body.email;
-                doc.address = req.body.address;
+    update: (req, res) => {
+
+        var id = req.body.id;
+        mongo.webuser.findById(id, (err, doc) => {
+            if (!err) {
+                doc.name = req.body.name != null ? req.body.name : doc.name;
+                doc.surname = req.body.surname != null ? req.body.surname : doc.surname;
+                doc.phone = req.body.phone != null ? req.body.phone : doc.phone;
+                doc.email = req.body.email != null ? req.body.email : doc.email;
+                doc.address = req.body.address != null ? req.body.address : doc.address;
 
                 doc.save();
-                res.json({"msg":"Updated!"});
+                res.json({ "msg": "Updated!" });
             }
         })
     }
