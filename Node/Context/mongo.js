@@ -35,6 +35,7 @@ const productSchema = new Schema({
   code: String,
   sort: Number,
   category: String,
+  isdeleted: { type: Boolean, default: false }
 });
 
 const orderSchema = new Schema({
@@ -78,5 +79,5 @@ const slider = mongoose.model("Slider", sliderSchema);
 module.exports = {
   webuser,
   contact,
-  product,
+  product
 };
