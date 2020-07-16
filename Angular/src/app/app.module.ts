@@ -25,6 +25,7 @@ import {
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { WebuserlistComponent } from './webuserlist/webuserlist.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
+import { ProducdListComponent } from './producd-list/producd-list.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { ContactListComponent } from './contact-list/contact-list.component';
     AdminLayoutComponent,
     WebuserlistComponent,
     ContactListComponent,
+    ProducdListComponent,
 
   ],
   providers: [],
