@@ -4,6 +4,8 @@ var app = require("express")();
 var bodyParser = require("body-parser");
 var mongo = require("./Context/mongo");
 var webuser = require("./Business/webusermanager");
+var adminUser = require("./Business/adminManager");
+var slider = require("./Business/sliderManager");
 var contact = require("./Business/contactManager");
 var helpers = require("./Helper/functions");
 var product = require("./Business/productManager");
@@ -45,17 +47,13 @@ app.post(
     "/api/webuser/add",
     [
         body("name").notEmpty().trim().escape().withMessage("Ad boş geçilemez"),
-        body("surname")
-            .notEmpty()
-            .trim()
-            .escape()
-            .withMessage("Soyad boş geçilemez"),
+        body("surname").notEmpty().trim().escape().withMessage("Soyad boş geçilemez"),
         body("email").notEmpty().trim().escape().withMessage("Email boş geçilemez"),
         body("email").isEmail().withMessage("Hatalı email formatı"),
         body("email").custom((value) => {
             return helpers.findByEmail(mongo.webuser, value).then((user) => {
                 if (user) {
-                    return Promise.reject("E-mail already in use");
+                    return Promise.reject("Email sistemde kayıtlı");
                 }
             });
         }),
@@ -129,7 +127,6 @@ app.post(
     }
 );
 //#endregion
-
 //#region PRODUCT
 app.get("/api/product", (req, res) => {
     product.productmanager.get(req, res);
@@ -209,8 +206,130 @@ app.post(
         product.productmanager.update(req, res);
     }
 );
-
+//#endregion
 //#region SLIDER
+app.get("/api/slider", (req, res) => {
+    slider.sliderManager.get(req, res);
+});
 
+app.get("/api/slider/:id", (req, res) => {
+    slider.sliderManager.getbyid(req, res);
+});
+
+app.post(
+    "/api/slider/delete",
+    [body("id").notEmpty().trim().escape().withMessage("id boş geçilemez")],
+    (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+        slider.sliderManager.delete(req, res);
+    }
+);
+
+app.post(
+    "/api/slider/add",
+    [
+        body("imgpath").notEmpty().trim()
+            //.escape()
+            .withMessage("Resim boş geçilemez"),
+        body("title").notEmpty().trim()
+            //.escape()
+            .withMessage("Title boş geçilemez"),
+    ],
+    (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+        slider.sliderManager.insert(req, res);
+    }
+);
+
+app.post(
+    "/api/slider/update",
+    [body("id").notEmpty().trim().escape().withMessage("id boş geçilemez")],
+    (req, res) => {
+        slider.sliderManager.update(req, res);
+    }
+);
+//#endregion
+//#region ADMIN
+app.get("/api/admin", (req, res) => {
+    adminUser.adminManager.get(req, res);
+});
+
+app.get("/api/admin/:id", (req, res) => {
+    adminUser.adminManager.getbyid(req, res);
+});
+
+app.post(
+    "/api/admin/delete",
+    [body("id").notEmpty().trim().escape().withMessage("id boş geçilemez")],
+    (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+        adminUser.adminManager.delete(req, res);
+    }
+);
+
+app.post(
+    "/api/admin/add",
+    [
+        body("password").notEmpty().trim().withMessage("Şifre boş geçilemez"),
+        body("email").notEmpty().trim().escape().withMessage("Email boş geçilemez"),
+        body("email").isEmail().withMessage("Hatalı email formatı"),
+        body("email").custom((value) => {
+            return helpers.findByEmail(mongo.webuser, value).then((user) => {
+                if (user) {
+                    return Promise.reject("Email sistemde kayıtlı");
+                }
+            });
+        }),
+        body('passwordConfirmation').custom((value, { req }) => {
+            if (value !== req.body.password) {
+                return Promise.reject("Şifre tekrarı ile uyuşmuyor");
+                //throw new Error('Password confirmation does not match password');
+            }
+            return true;
+        })
+    ],
+    (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+        adminUser.adminManager.insert(req, res);
+    }
+);
+
+app.post(
+    "/api/admin/update",
+    [
+        //body("id").notEmpty().trim().escape().withMessage("id boş geçilemez"),
+        body("email").notEmpty().trim().escape().withMessage("Email boş geçilemez"),
+        body("newPassword").notEmpty().trim().withMessage("Yeni şifre boş geçilemez"),
+        body("oldPassword").notEmpty().trim().withMessage("Eski şifre boş geçilemez"),
+        body('oldPassword').custom((value, { req }) => {
+            return helpers.findByEmail(mongo.adminUser, req.body.email).then((user) => {
+                if (user) {
+                    if (user.password !== value) {
+                        return Promise.reject("Eski şifre hatalı");
+                    }
+                }
+            });
+        })
+    ],
+    (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+        adminUser.adminManager.update(req, res);
+    }
+);
 //#endregion
 app.listen(3000);

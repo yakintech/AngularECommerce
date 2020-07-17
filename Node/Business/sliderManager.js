@@ -1,8 +1,8 @@
 var mongo = require('../Context/mongo');
 
-const contactManager = {
+const sliderManager = {
     get: (req, res) => {
-        mongo.contact.find({ "isdeleted": false }, (err, doc) => {
+        mongo.slider.find({ "isdeleted": false }, (err, doc) => {
             if (!err) {
                 res.json(doc);
             }
@@ -13,8 +13,7 @@ const contactManager = {
     },
     delete: (req, res) => {
         var id = req.body.id;
-
-        mongo.contact.findById(id, (err, doc) => {
+        mongo.slider.findById(id, (err, doc) => {
             if (!err) {
                 doc.isdeleted = true;
                 doc.save();
@@ -26,9 +25,9 @@ const contactManager = {
         })
     },
     insert: (req, res) => {
-        var data = new mongo.contact({
-            email: req.body.email,
-            message: req.body.message
+        var data = new mongo.slider({
+            imgpath: req.body.imgpath,
+            title: req.body.title
         });
 
         data.save();
@@ -37,7 +36,7 @@ const contactManager = {
     },
     getbyid: (req, res) => {
         var id = req.params.id;
-        mongo.contact.findById(id, (err, doc) => {
+        mongo.slider.findById(id, (err, doc) => {
             if (!err) {
                 res.json(doc);
             }
@@ -49,10 +48,10 @@ const contactManager = {
     update: (req, res) => {
 
         var id = req.body._id;
-        mongo.contact.findById(id, (err, doc) => {
+        mongo.slider.findById(id, (err, doc) => {
             if (!err) {
                 doc.email = req.body.email != null ? req.body.email : doc.email;
-                doc.message = req.body.message != null ? req.body.message : doc.message;
+                doc.password = req.body.password != null ? req.body.password : doc.password;
                 doc.save();
                 res.json({ "msg": "update completed!" });
             }
@@ -62,5 +61,5 @@ const contactManager = {
 }
 
 module.exports = {
-    contactManager
+    sliderManager
 }

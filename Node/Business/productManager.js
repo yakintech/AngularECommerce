@@ -1,4 +1,5 @@
 var mongo = require("./../Context/mongo");
+
 const productmanager = {
   get: (req, res) => {
     mongo.product.find({ isdeleted: false }, (err, doc) => {

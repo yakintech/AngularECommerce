@@ -64,12 +64,13 @@ const contactSchema = new Schema({
 
 const sliderSchema = new Schema({
   imgpath: String,
+  title: String,
   adddate: { type: Date, default: Date.now },
   isdeleted: { type: Boolean, default: false },
 });
 
 const webuser = mongoose.model("Webuser", webuserSchema);
-const adminuser = mongoose.model("Adminuser", adminuserSchema);
+const adminUser = mongoose.model("Adminuser", adminuserSchema);
 const product = mongoose.model("Product", productSchema);
 const order = mongoose.model("Order", orderSchema);
 const contact = mongoose.model("Contact", contactSchema);
@@ -79,5 +80,8 @@ const slider = mongoose.model("Slider", sliderSchema);
 module.exports = {
   webuser,
   contact,
-  product
+  product,
+  slider,
+  adminUser,
+  order
 };
