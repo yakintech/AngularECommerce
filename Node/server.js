@@ -9,6 +9,8 @@ var slider = require("./Business/sliderManager");
 var contact = require("./Business/contactManager");
 var helpers = require("./Helper/functions");
 var product = require("./Business/productManager");
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -332,4 +334,20 @@ app.post(
     }
 );
 //#endregion
-app.listen(3000);
+
+io.on('connection', (socket) => {
+    console.log("Client connect!");
+
+    socket.on("merhabaserver",function(){
+        socket.emit("merhabaclient");
+    })
+
+    socket.on("clientpush",function(){
+        socket.emit("sitepush");
+    })
+})
+
+http.listen(3000, () => {
+    console.log('listening on *:3000');
+  });
+

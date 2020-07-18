@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -29,6 +30,8 @@ import { ProducdListComponent } from './producd-list/producd-list.component';
 import { SliderListComponent } from './slider-list/slider-list.component';
 import { AdminUserListComponent } from './admin-user-list/admin-user-list.component';
 
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -44,7 +47,8 @@ import { AdminUserListComponent } from './admin-user-list/admin-user-list.compon
     AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-    })
+    }),
+    SocketIoModule.forRoot(config)
   ],
   declarations: [
     AppComponent,
@@ -59,4 +63,5 @@ import { AdminUserListComponent } from './admin-user-list/admin-user-list.compon
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

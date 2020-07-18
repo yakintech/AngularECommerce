@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WebuserService } from 'app/service/webuser.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { webuser } from 'app/models/webuser';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-webuserlist',
@@ -22,11 +23,18 @@ export class WebuserlistComponent implements OnInit {
 
 
   })
-  constructor(private _webuserservice: WebuserService) { }
+  constructor(private _webuserservice: WebuserService,private socket:Socket) { }
 
   ngOnInit(): void {
     this.Load();
+
+    this.socket.on("merhabaclient",()=>{
+      console.log("Client tetiklendi");
+    })
+
+
   }
+
 
 
   Delete(id) {
@@ -61,6 +69,12 @@ export class WebuserlistComponent implements OnInit {
       this.Load();
       this.kisiform.reset();
     })
+  }
+
+  sockettest(){
+    this.socket.emit("merhabaserver");
+
+    this.socket.emit("clientpush");
   }
 
 }
