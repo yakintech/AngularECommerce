@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AdminUserService } from 'app/service/admin-user.service';
 import { adminUserModel } from 'app/models/adminUserModel';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-user-list',
@@ -18,7 +19,7 @@ export class AdminUserListComponent implements OnInit {
     _id: new FormControl('')
   })
 
-  constructor(private _adminUserService: AdminUserService) { }
+  constructor(private _adminUserService: AdminUserService, private _http: HttpClient) { }
 
   ngOnInit(): void {
     this.Load();
@@ -31,9 +32,12 @@ export class AdminUserListComponent implements OnInit {
   }
 
   Load() {
-    this._adminUserService.GetAll().subscribe((data: []) => {
+    // this._adminUserService.GetAll().subscribe((data: []) => {
+    //   this.adminusers = data;
+    // })
+    return this._http.get("http://localhost:3000/api/admin").subscribe((data: []) => {
       this.adminusers = data;
-    })
+    });
   }
 
   GetData(id) {
