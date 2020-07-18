@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
+import { NgxMaskModule } from 'ngx-mask';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -37,6 +37,9 @@ import { SliderListComponent } from './slider-list/slider-list.component';
     HttpClientModule,
     ComponentsModule,
     RouterModule,
+    NgxMaskModule.forRoot({
+      validation: true,
+    }),
     AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
