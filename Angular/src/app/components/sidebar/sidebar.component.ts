@@ -12,6 +12,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/user-profile', title: 'User Profile', icon: 'person', class: '' },
   { path: '/table-list', title: 'Table List', icon: 'content_paste', class: '' },
   { path: '/webusers', title: 'Kullanıcılar', icon: 'transfer_within_a_station', class: '' },
+  { path: '/admin-user-list', title: 'Admin Kullanıcılar', icon: 'account_circle', class: '' },
   { path: '/contact-forms', title: 'İletişim Formları', icon: 'format_paint', class: '' },
   { path: '/slider-list', title: 'Slider Listesi', icon: 'image', class: '' },
   { path: '/typography', title: 'Typography', icon: 'library_books', class: '' },

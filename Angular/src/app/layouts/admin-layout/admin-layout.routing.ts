@@ -11,7 +11,7 @@ import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { WebuserlistComponent } from '../../webuserlist/webuserlist.component';
 import { ContactListComponent } from 'app/contact-list/contact-list.component';
 import { SliderListComponent } from 'app/slider-list/slider-list.component';
-
+import { AdminUserListComponent } from 'app/admin-user-list/admin-user-list.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -67,5 +67,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'webusers', component: WebuserlistComponent },
     { path: 'contact-forms', component: ContactListComponent },
     { path: 'slider-list', component: SliderListComponent },
+    { path: 'admin-user-list', component: AdminUserListComponent },
 
 ];
