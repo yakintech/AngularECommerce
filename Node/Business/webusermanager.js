@@ -1,5 +1,14 @@
 var mongo = require('./../Context/mongo');
+var helpers = require("./../Helper/emailsender");
 const { webuser } = require('./../Context/mongo');
+
+
+var mailOptions = {
+    from: 'bilgebatman19@gmail.com',
+    to: '',
+    subject: 'Register Code',
+    text: ''
+  };
 
 const webusermanager = {
     get: (req, res) => {
@@ -33,6 +42,7 @@ const webusermanager = {
             address: req.body.address,
             email: req.body.email,
             phone: req.body.phone,
+            password:req.body.password
         });
 
         w.save();
@@ -65,6 +75,23 @@ const webusermanager = {
                 res.json({ "msg": "Updated!" });
             }
         })
+    },
+    register:(req,res)=>{
+        var email = req.body.email;
+        var code = Math.floor(Math.random() * 1000000);
+        var w = new mongo.webuser({
+            email:req.body.email,
+            dynamiccode:code
+        });
+        
+        w.save();
+
+        mailOptions.to = email;
+        mailOptions.text = "Kayıt için kodunuz: " + code + ".";
+        helpers.SendEMail(mailOptions);
+
+        res.json({"msg":"İşlem başarılı!"});
+
     }
 
 }

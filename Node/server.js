@@ -24,6 +24,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+
+  
 //#region WEB
 app.get("/api/webuser", (req, res) => {
     webuser.webusermanager.get(req, res);
@@ -49,6 +51,7 @@ app.post(
     "/api/webuser/add",
     [
         body("name").notEmpty().trim().escape().withMessage("Ad boş geçilemez"),
+        body("password").notEmpty().trim().escape().withMessage("Parola boş geçilemez"),
         body("surname").notEmpty().trim().escape().withMessage("Soyad boş geçilemez"),
         body("email").notEmpty().trim().escape().withMessage("Email boş geçilemez"),
         body("email").isEmail().withMessage("Hatalı email formatı"),
@@ -68,6 +71,25 @@ app.post(
         webuser.webusermanager.insert(req, res);
     }
 );
+
+app.post("/api/webuser/register",
+[
+    body("email").notEmpty().trim().escape().withMessage("Email boş geçilemez"),
+    body("email").isEmail().withMessage("Hatalı email formatı"),
+    body("email").custom((value) => {
+        return helpers.findByEmail(mongo.webuser, value).then((user) => {
+            if (user) {
+                return Promise.reject("Email sistemde kayıtlı");
+            }
+        });
+    }),
+], (req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    webuser.webusermanager.register(req, res);
+})
 
 app.post(
     "/api/webuser/update",
@@ -152,43 +174,43 @@ app.post(
 
 app.post(
     "/api/product/add",
-    //   [
-    //     body("name").notEmpty().trim().escape().withMessage("Ad boş geçilemez"),
-    //     body("description")
-    //       .notEmpty()
-    //       .trim()
-    //       .escape()
-    //       .withMessage("Açıklama boş geçilemez"),
-    //     body("unitprice")
-    //       .notEmpty()
-    //       .trim()
-    //       .escape()
-    //       .withMessage("Fiyat boş geçilemez"),
-    //     body("photos")
-    //       .notEmpty()
-    //       .trim()
-    //       .escape()
-    //       .withMessage("Ürün için en az bir fotoğraf girilmeli"),
-    //     ,
-    //     body("code")
-    //       .notEmpty()
-    //       .trim()
-    //       .escape()
-    //       .withMessage("Ürün kodu boş geçilemez"),
-    //     ,
-    //     body("code").custom((value) => {
-    //       return helpers.findByCode(mongo.product, value).then((data) => {
-    //         if (data) {
-    //           return Promise.reject("Ürün kodu var olan ürünle aynı olamaz");
-    //         }
-    //       });
-    //     }),
-    //     body("category")
-    //       .notEmpty()
-    //       .trim()
-    //       .escape()
-    //       .withMessage("Kategori boş geçilemez"),
-    //   ],
+      [
+        body("name").notEmpty().trim().escape().withMessage("Ad boş geçilemez"),
+        body("description")
+          .notEmpty()
+          .trim()
+          .escape()
+          .withMessage("Açıklama boş geçilemez"),
+        body("unitprice")
+          .notEmpty()
+          .trim()
+          .escape()
+          .withMessage("Fiyat boş geçilemez"),
+        body("photos")
+          .notEmpty()
+          .trim()
+          .escape()
+          .withMessage("Ürün için en az bir fotoğraf girilmeli"),
+        
+        body("code")
+          .notEmpty()
+          .trim()
+          .escape()
+          .withMessage("Ürün kodu boş geçilemez"),
+        
+        body("code").custom((value) => {
+          return helpers.findByCode(mongo.product, value).then((data) => {
+            if (data) {
+              return Promise.reject("Ürün kodu var olan ürünle aynı olamaz");
+            }
+          });
+        }),
+        body("category")
+          .notEmpty()
+          .trim()
+          .escape()
+          .withMessage("Kategori boş geçilemez")
+      ],
     (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -257,6 +279,7 @@ app.post(
     }
 );
 //#endregion
+
 //#region ADMIN
 app.get("/api/admin", (req, res) => {
     adminUser.adminManager.get(req, res);

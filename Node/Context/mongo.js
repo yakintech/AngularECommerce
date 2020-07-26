@@ -16,6 +16,7 @@ const webuserSchema = new Schema({
   email: String,
   phone: String,
   lastlogindate: Date,
+  dynamiccode:String,
   adddate: { type: Date, default: Date.now },
   isdeleted: { type: Boolean, default: false },
 });
